@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Next Level Site</title>
+
+<style>
+:root {
+    --bg: #0f172a;
+    --card: rgba(255,255,255,0.08);
+    --accent: #22c55e;
+    --text: white;
+}
+
+body.light {
+    --bg: #f5f5f5;
+    --card: white;
+    --text: black;
+}
+
+body {
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: 0.4s;
+}
+
+/* LOADER */
+#loader {
+    position:fixed;
+    width:100%;height:100%;
+    background:black;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:999;
+}
+
+/* NAV */
+nav {
+    display:flex;
+    justify-content:space-between;
+    padding:20px;
+    position:sticky;
+    top:0;
+    backdrop-filter: blur(10px);
+}
+
+nav a {
+    margin:0 10px;
+    text-decoration:none;
+    color:var(--text);
+}
+
+/* HERO */
+.hero {
+    text-align:center;
+    padding:100px 20px;
+}
+
+.btn {
+    padding:12px 25px;
+    border-radius:30px;
+    background:var(--accent);
+    cursor:pointer;
+    display:inline-block;
+    margin-top:20px;
+}
+
+/* GRID */
+.container {width:85%;margin:auto;}
+.grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card {
+    background:var(--card);
+    padding:20px;
+    border-radius:15px;
+    transition:0.3s;
+}
+.card:hover {transform:scale(1.05);}
+
+/* MODAL */
+.modal {
+    display:none;
+    position:fixed;
+    width:100%;height:100%;
+    background:rgba(0,0,0,0.8);
+}
+.modal-content {
+    background:#222;
+    padding:30px;
+    margin:10% auto;
+    width:300px;
+}
+
+/* PROGRESS */
+#progress {
+    position:fixed;
+    top:0;
+    height:5px;
+    background:#22c55e;
+    width:0%;
+}
+
+/* NOTIFICATION */
+#notify {
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:#22c55e;
+    padding:10px;
+    display:none;
+}
+
+/* PARALLAX */
+.parallax {
+    height:300px;
+    background:url('https://picsum.photos/1200/600') center/cover fixed;
+}
+</style>
+</head>
+
+<body>
+
+<div id="loader">🚀 Загрузка...</div>
+<div id="progress"></div>
+<div id="notify">Сделано!</div>
+
+<nav>
+    <div>⚡ NextSite</div>
+    <div>
+        <a href="#home">Главная</a>
+        <a href="#features">Функции</a>
+        <a href="#contact">Контакты</a>
+    </div>
+</nav>
+
+<div class="hero" id="home">
+    <h1>🔥 Уровень PRO+</h1>
+    <p>Вот на что я способен</p>
+    <div class="btn" onclick="openModal()">Связаться</div>
+    <div class="btn" onclick="toggleTheme()">Сменить тему</div>
+</div>
+
+<div class="parallax"></div>
+
+<div class="container" id="features">
+    <h2>Функции</h2>
+
+    <input placeholder="Поиск..." onkeyup="search(this.value)">
+
+    <div class="grid" id="cards">
+        <div class="card">Анимации</div>
+        <div class="card">Дизайн</div>
+        <div class="card">Интерактив</div>
+        <div class="card">UI/UX</div>
+    </div>
+</div>
+
+<div class="container" id="contact">
+    <h2>Контакты</h2>
+    <div class="btn" onclick="notify()">Отправить</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <h3>Напишите нам</h3>
+        <div class="btn" onclick="closeModal()">Закрыть</div>
+    </div>
+</div>
+
+<script>
+// loader
+window.onload=()=>setTimeout(()=>loader.style.display="none",1000);
+
+// modal
+function openModal(){modal.style.display="block";}
+function closeModal(){modal.style.display="none";}
+
+// theme
+function toggleTheme(){document.body.classList.toggle("light");}
+
+// notify
+function notify(){
+    notifyBox.style.display="block";
+    setTimeout(()=>notifyBox.style.display="none",2000);
+}
+let notifyBox=document.getElementById("notify");
+
+// search
+function search(val){
+    document.querySelectorAll(".card").forEach(c=>{
+        c.style.display = c.textContent.toLowerCase().includes(val.toLowerCase()) ? "block":"none";
+    });
+}
+
+// progress scroll
+window.onscroll=()=>{
+    let h=document.documentElement;
+    let sc=(h.scrollTop)/(h.scrollHeight-h.clientHeight)*100;
+    progress.style.width=sc+"%";
+}
+</script>
+
+</body>
+</html>
